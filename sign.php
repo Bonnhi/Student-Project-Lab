@@ -32,7 +32,7 @@
 			</form>
 		</div>
 		<div class="form-container sign-in-container">
-			<form action="">
+			<form action="" method="post" enctype="multipart/form-data">
 				<h1>Sign In</h1>
 				<input type="text" name="user_id" id="user_id" placeholder="Student Id / Teacher Id">
 				<input type="password" name="user_pass" id="user_pass" placeholder="Password">
@@ -74,4 +74,42 @@
 </body>
 
 </html>
+<?php
+include './connection.php'
+?>
+<?php
+	if (ISSET($_POST["login"])){
+	$user_password = $_POST["user_pass"];
+	echo "$user_pass";
+$user_id = $_POST["user_id"];
+if(!empty($user_id) && !empty($user_password)){
+	$sql = "select teacher_id, teacher_pass from teacherRegistration where teacher_id='$user_id' and teacher_pass='$user_password'";
+	$sql1 = "select student_id, student_pass from studentRegistration where student_id='$user_id' and student_pass='$user_password'";
+
+	$r = mysqli_query($conn, $sql);
+	$r1 = mysqli_query($conn, $sql1);
+
+	if (mysqli_num_rows($r) > 0) {
+		$_SESSION['user_id'] = $user_id;
+		$_SESSION['teacher_login_status'] = "logged in";
+		header('Location:./teacher/teacher.php');
+		
+	} else if (mysqli_num_rows($r1) > 0) {
+
+		$_SESSION['user_id'] = $user_id;
+		$_SESSION['student_login_status'] = "logged in";
+		
+		header("Location:./student.php");
+	} else {
+		echo "Incorrect id or password";
+	}
+
+  
+}
+else {
+	echo "All fields are required";
+}
+}
+
+?>
 

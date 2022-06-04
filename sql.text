@@ -15,3 +15,16 @@ create table teacherRegistration(
 
 )
 Insert INTO teacherRegistration(teacher_name,teacher_id, teacher_email, teacher_pass) values ("admin","101","admin@gmail.com","34567") 
+
+create table projectDetails(
+    id int auto_increment primary key not null,
+    project_name varchar(250),
+    project_details varchar(500),
+    project_group_name varchar(500),
+    student1 INT(100),
+    student2 INT(100),
+    student3 INT(100),
+    student4 INT,
+    FOREIGN KEY (student4) REFERENCES studentRegistration(id)
+    
+)
